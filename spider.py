@@ -35,7 +35,26 @@ class Spider:
         if page_url not in Spider.crawled:
             print(thread_name + ' currently crawling ' + page_url)
             print('Queue ' + str(len(Spider.queue)) + ' | Crawled ' + str(len(Spider.crawled)))
-            Spider.add_links_to_queue(Spider.gather_link(page_url))
+            Spider.add_links_to_queue(Spider.gather_links(page_url))
             Spider.queue.remove(page_url)               # moving the link from waiting list to visited
             Spider.crawled.add(page_url)
             Spider.update_files()
+
+    # this function will connect to a website,
+    # convert the html to a string html format,
+    # pass that string to GetLinks,
+    # GetLinks will parse the string and return all urls/links on the page
+    @staticmethod
+    def gather_links(page_url):
+        html_string = ''
+        try:
+            response = urlopen(page_url)
+            if response.getheader('Content-Type') == 'text/html':           # ensuring that the input is an html page
+                html_bytes = response.read()
+                html_string = html_bytes.decode("utf-8")                    # converting the data to a string
+            finder = GetLinks(Spider.base_url, page_url)
+            finder.feed(html_string)
+        except:
+            print('Error : can not crawl the page')
+            return set()                                                    # return an empty set if the try block fails
+        return finder.page_links()
