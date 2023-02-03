@@ -58,3 +58,20 @@ class Spider:
             print('Error : can not crawl the page')
             return set()                                                    # return an empty set if the try block fails
         return finder.page_links()
+
+    @staticmethod
+    def add_links_to_queue(links):
+        for url in links:
+            if url in Spider.queue:
+                continue
+            if url in Spider.crawled:
+                continue
+            if Spider.domain_name not in url:                               # if the target domain name is not in the url then continue to next
+                continue
+            Spider.queue.add(url)
+
+    @staticmethod
+    def update_files():
+        convert_set_to_file(Spider.queue, Spider.queue_file)
+        convert_set_to_file(Spider.crawled, Spider.crawled_file)
+
