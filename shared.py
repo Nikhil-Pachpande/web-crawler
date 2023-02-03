@@ -11,11 +11,11 @@ def create_project_dir(location):
 # create queue and files
 def create_files(project_name, base_url):
     queue = project_name + '/queue.txt'
-    visited_sites = project_name + '/crawled.txt'
+    crawled = project_name + '/crawled.txt'
     if not os.path.isfile(queue):
         create_file(queue, base_url)        # base_url since the crawler needs a reference point
-    if not os.path.isfile(visited_sites):
-        create_file(visited_sites, '')      # make the newly created file as empty
+    if not os.path.isfile(crawled):
+        create_file(crawled, '')      # make the newly created file as empty
 
 
 # create a new file
@@ -51,3 +51,4 @@ def convert_set_to_file(links, file):
     clear_files(file)
     for link in sorted(links):
         add_to_file(file, link)
+    return file

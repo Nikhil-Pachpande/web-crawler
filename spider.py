@@ -1,3 +1,4 @@
+import urllib.request
 from urllib.request import urlopen
 from get_links import GetLinks
 from shared import *
@@ -47,9 +48,10 @@ class Spider:
     @staticmethod
     def gather_links(page_url):
         html_string = ''
+        # headers = {'Content-Type': 'text/html'}
         try:
             response = urlopen(page_url)
-            if response.getheader('Content-Type') == 'text/html':           # ensuring that the input is an html page
+            if 'text/html' in response.headers['Content-Type']:           # ensuring that the input is a html page
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")                    # converting the data to a string
             finder = GetLinks(Spider.base_url, page_url)
