@@ -37,7 +37,7 @@ class Spider:
             print(thread_name + ' currently crawling ' + page_url)
             print('Queue ' + str(len(Spider.queue)) + ' | Crawled ' + str(len(Spider.crawled)))
             Spider.add_links_to_queue(Spider.gather_links(page_url))
-            Spider.queue.remove(page_url)               # moving the link from waiting list to visited
+            Spider.queue.remove(page_url)  # moving the link from waiting list to visited
             Spider.crawled.add(page_url)
             Spider.update_files()
 
@@ -51,14 +51,14 @@ class Spider:
         # headers = {'Content-Type': 'text/html'}
         try:
             response = urlopen(page_url)
-            if 'text/html' in response.headers['Content-Type']:           # ensuring that the input is a html page
+            if 'text/html' in response.headers['Content-Type']:  # ensuring that the input is a html page
                 html_bytes = response.read()
-                html_string = html_bytes.decode("utf-8")                    # converting the data to a string
+                html_string = html_bytes.decode("utf-8")  # converting the data to a string
             finder = GetLinks(Spider.base_url, page_url)
             finder.feed(html_string)
         except:
             print('Error : can not crawl the page')
-            return set()                                                    # return an empty set if the try block fails
+            return set()  # return an empty set if the try block fails
         return finder.page_links()
 
     @staticmethod
@@ -68,7 +68,7 @@ class Spider:
                 continue
             if url in Spider.crawled:
                 continue
-            if Spider.domain_name not in url:                               # if the target domain name is not in the url then continue to next
+            if Spider.domain_name not in url:  # if the target domain name is not in the url then continue to next
                 continue
             Spider.queue.add(url)
 
@@ -76,4 +76,3 @@ class Spider:
     def update_files():
         convert_set_to_file(Spider.queue, Spider.queue_file)
         convert_set_to_file(Spider.crawled, Spider.crawled_file)
-

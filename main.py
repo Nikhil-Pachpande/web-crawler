@@ -16,9 +16,9 @@ Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)  # Spider for the Home Page
 
 def crawl():
     queued_links = convert_file_to_set(QUEUE_FILE)
-    link_no = len(queued_links)
-    if link_no > 0:
-        print(str(link_no) + 'links remaining...')
+    link_num = len(queued_links)
+    if link_num > 0:
+        print(str(link_num) + 'links remaining...')
         create_jobs(queued_links)
 
 
